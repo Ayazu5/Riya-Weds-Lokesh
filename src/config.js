@@ -21,7 +21,7 @@ export const weddingConfig = {
     mapsUrl: "https://maps.google.com/?q=Rahagir+Resort+Rishikesh",
   },
   intro: {
-    namesAppearAtSeconds: 3.5,
+    namesAppearAtSeconds: 5.5,
   },
   media: {
     introVideo: "./assets/video/intro.mp4",
