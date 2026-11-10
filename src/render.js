@@ -13,7 +13,7 @@ const renderParentLine = (value = "") =>
   renderMultilineText(String(value).replace(/^(Daughter of|Son of)\s+/i, "$1\n"));
 
 export function renderInvitation(config) {
-  const { couple, copy, wedding, media, venue, preWeddingEvents, program, sections } = config;
+  const { couple, copy, wedding, media, venue, program, sections } = config;
 
   return `
     <section class="hero" id="top" aria-label="Opening invitation">
@@ -245,50 +245,6 @@ export function renderInvitation(config) {
         </div>
       </section>
     ` : ""}
-
-    ${sections.preWeddingEvents ? `
-      <section class="section events-section reveal-on-scroll" id="events">
-        <div class="section__inner">
-          <p class="section-kicker">Before the Nikah</p>
-          <h2>${escapeHtml(copy.preWeddingTitle)}</h2>
-          <div class="event-grid">
-            ${preWeddingEvents.map((event) => `
-              <article class="event-card">
-                <span class="event-card__star">✦</span>
-                <h3>${escapeHtml(event.title)}</h3>
-                <p class="event-card__date">${escapeHtml(event.date)}</p>
-                <p>${escapeHtml(event.time)} · ${escapeHtml(event.venue)}</p>
-                <small>${escapeHtml(event.note)}</small>
-                ${event.mapsUrl ? `<a class="event-card__map" href="${escapeHtml(event.mapsUrl)}" target="_blank" rel="noreferrer">View on Google Maps ↗</a>` : ""}
-              </article>
-            `).join("")}
-          </div>
-        </div>
-      </section>
-    ` : ""}
-
-    <!-- Traditional RSVP Section Card (Replacing Form & Dress Code) -->
-    <section
-      class="section family-section reveal-on-scroll"
-      id="rsvp"
-      aria-labelledby="rsvp-heading"
-    >
-      <div class="section__inner section__inner--narrow">
-        <div class="venue-card" style="text-align: center; padding: 40px 20px;">
-          <h2 id="rsvp-heading" style="font-family: var(--font-display); font-size: 2.5rem; color: var(--gold-deep); margin-bottom: 30px; letter-spacing: 2px;">R.S.V.P.</h2>
-          
-          <div style="display: flex; flex-direction: column; gap: 16px; font-size: 1.15rem; color: var(--ink);">
-            <p style="margin: 0;">Master Shamshuddin</p>
-            <p style="margin: 0;">Md. Faiyaz Daroga, Haji Irshad</p>
-            <p style="margin: 0;">Abdul Sattar, Nawab Ali (Kardampuri)</p>
-            <p style="margin: 0;">Bablu Bhai (Mustafabad)</p>
-            <p style="margin: 0;">Md. Azeem, Md. Faiz, Md. Saad</p>
-            <p style="margin: 0;">Md. Aalim, Md. Ismaeel, Md. Abu Bakar</p>
-            <p style="margin: 0;">Md. Ibraheem, Md. Hussain</p>
-          </div>
-        </div>
-      </div>
-    </section>
     
     ${sections.closing ? `
       <footer class="closing" id="closing">
