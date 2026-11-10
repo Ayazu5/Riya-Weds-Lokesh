@@ -72,7 +72,7 @@ export const weddingConfig = {
   ],
   familyGroups: [
     {
-      title: "Awaiting Your Presence",
+      title: "R.S.V.P",
       names: [
         "Mr Hansraj Singh",
         "Mr Vijay Pal",
