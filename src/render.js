@@ -13,7 +13,7 @@ const renderParentLine = (value = "") =>
   renderMultilineText(String(value).replace(/^(Daughter of|Son of)\s+/i, "$1\n"));
 
 export function renderInvitation(config) {
-  const { couple, copy, wedding, media, venue, dressCode, preWeddingEvents, program, rsvp, sections } = config;
+  const { couple, copy, wedding, media, venue, preWeddingEvents, program, sections } = config;
 
   return `
     <section class="hero" id="top" aria-label="Opening invitation">
@@ -28,12 +28,12 @@ export function renderInvitation(config) {
         <source src="${escapeHtml(media.introVideo)}" type="video/mp4" />
       </video>
       <img
-  class="hero__poster-frame"
-  id="hero-poster-frame"
-  src="${escapeHtml(media.introPoster)}"
-  alt=""
-  aria-hidden="true"
-/>
+        class="hero__poster-frame"
+        id="hero-poster-frame"
+        src="${escapeHtml(media.introPoster)}"
+        alt=""
+        aria-hidden="true"
+      />
       <div class="hero__ornament hero__ornament--one"></div>
       <div class="hero__ornament hero__ornament--two"></div>
 
@@ -42,54 +42,46 @@ export function renderInvitation(config) {
         <span class="music-control__label">Sound ready</span>
       </button>
 
-      <button class="opening-gate" id="opening-gate" type="button" aria-label="Open wedding invitation">
-
-      </button>
+      <button class="opening-gate" id="opening-gate" type="button" aria-label="Open wedding invitation"></button>
 
       <div class="hero__content" id="hero-content" aria-hidden="true">
+        <p class="hero__bismillah" lang="ar" dir="rtl">
+          ${escapeHtml(copy.heroBismillah)}
+        </p>
 
-  <p class="hero__bismillah" lang="ar" dir="rtl">
-    ${escapeHtml(copy.heroBismillah)}
-  </p>
+        <div class="hero__intro">
+          ${[copy.heroIntroLineOne, copy.heroIntroLineTwo, copy.heroIntroLineThree]
+            .filter(Boolean)
+            .map((line) => `<p>${renderMultilineText(line)}</p>`)
+            .join("")}
+        </div>
 
-  <div class="hero__intro">
-    ${[copy.heroIntroLineOne, copy.heroIntroLineTwo, copy.heroIntroLineThree]
-      .filter(Boolean)
-      .map((line) => `<p>${renderMultilineText(line)}</p>`)
-      .join("")}
-  </div>
+        <h1 class="hero__names">
+          <span class="hero__person">
+            <span class="hero__name">
+              ${escapeHtml(couple.groomName)}
+            </span>
+            <span class="hero__parents">
+              ${renderParentLine(couple.groomParents)}
+            </span>
+          </span>
 
-  <h1 class="hero__names">
+          <span class="hero__ampersand">&amp;</span>
 
-    <span class="hero__person">
-      <span class="hero__name">
-        ${escapeHtml(couple.groomName)}
-      </span>
+          <span class="hero__person">
+            <span class="hero__name">
+              ${escapeHtml(couple.brideName)}
+            </span>
+            <span class="hero__parents">
+              ${renderParentLine(couple.brideParents)}
+            </span>
+          </span>
+        </h1>
 
-      <span class="hero__parents">
-        ${renderParentLine(couple.groomParents)}
-      </span>
-    </span>
-
-    <span class="hero__ampersand">&amp;</span>
-
-    <span class="hero__person">
-      <span class="hero__name">
-        ${escapeHtml(couple.brideName)}
-      </span>
-
-      <span class="hero__parents">
-        ${renderParentLine(couple.brideParents)}
-      </span>
-    </span>
-
-  </h1>
-
-  <p class="hero__closing-line">
-    ${renderMultilineText(copy.heroClosingLine)}
-  </p>
-
-</div>
+        <p class="hero__closing-line">
+          ${renderMultilineText(copy.heroClosingLine)}
+        </p>
+      </div>
 
       <a class="scroll-cue" id="scroll-cue" href="#welcome" aria-label="Scroll to invitation details">
         <span>Scroll</span><i></i>
@@ -112,26 +104,22 @@ export function renderInvitation(config) {
             ${config.familyGroups.map((group) => `
               <article class="family-card">
                 <h3>${escapeHtml(group.title)}</h3>
-
                 <ul>
                   ${group.names.map((entry) => {
-  const match = String(entry).match(/^(.*?)\s*:\s*(\d{10})$/);
-
-  if (!match) {
-    return `<li>${escapeHtml(entry)}</li>`;
-  }
-
-  const [, label, phone] = match;
-
-  return `
-    <li>
-      ${escapeHtml(label)}:
-      <a class="family-phone" href="tel:+91${phone}">
-        ${phone}
-      </a>
-    </li>
-  `;
-}).join("")}
+                    const match = String(entry).match(/^(.*?)\s*:\s*(\d{10})$/);
+                    if (!match) {
+                      return `<li>${escapeHtml(entry)}</li>`;
+                    }
+                    const [, label, phone] = match;
+                    return `
+                      <li>
+                        ${escapeHtml(label)}:
+                        <a class="family-phone" href="tel:+91${phone}">
+                          ${phone}
+                        </a>
+                      </li>
+                    `;
+                  }).join("")}
                 </ul>
               </article>
             `).join("")}
@@ -188,7 +176,7 @@ export function renderInvitation(config) {
           <p class="section-kicker">Moments held close</p>
           <h2>${escapeHtml(copy.galleryTitle)}</h2>
           <div class="gallery" id="gallery-slider">
-            <div class="gallery__track" role="button" tabindex="0" aria-label="View next gallery image">
+            <div class="gallery__track" role="button" tabindex="0" aria-label="Main gallery track">
               ${media.gallery.map((image, index) => `
                 <figure class="gallery__slide ${index === 0 ? "is-active" : ""}">
                   <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="lazy" />
@@ -258,20 +246,6 @@ export function renderInvitation(config) {
       </section>
     ` : ""}
 
-    ${sections.dressCode ? `
-      <section class="section dress-section reveal-on-scroll" id="dress-code">
-        <div class="section__inner section__inner--narrow">
-          <p class="section-kicker">Celebrate in style</p>
-          <h2>${escapeHtml(copy.dressCodeTitle)}</h2>
-          <h3>${escapeHtml(dressCode.title)}</h3>
-          <p class="lead">${escapeHtml(dressCode.description)}</p>
-          <div class="palette" aria-label="Suggested colour palette">
-            ${dressCode.palette.map((color) => `<span style="--swatch:${escapeHtml(color)}" title="${escapeHtml(color)}"></span>`).join("")}
-          </div>
-        </div>
-      </section>
-    ` : ""}
-
     ${sections.preWeddingEvents ? `
       <section class="section events-section reveal-on-scroll" id="events">
         <div class="section__inner">
@@ -293,112 +267,26 @@ export function renderInvitation(config) {
       </section>
     ` : ""}
 
-    ${sections.gifts ? `
-      <section class="section gifts-section reveal-on-scroll" id="gifts">
-        <div class="section__inner section__inner--narrow">
-          <div class="gift-icon" aria-hidden="true">♡</div>
-          <h2>${escapeHtml(copy.giftsTitle)}</h2>
-          <p class="lead">${escapeHtml(copy.giftsBody)}</p>
-        </div>
-      </section>
-    ` : ""}
-
-    ${sections.rsvp ? `
-      <section class="section rsvp-section reveal-on-scroll" id="rsvp">
-        <div class="section__inner section__inner--narrow">
-          <p class="section-kicker">Répondez s’il vous plaît</p>
-          <h2>${escapeHtml(copy.rsvpTitle)}</h2>
-          <p class="rsvp-subtitle">${escapeHtml(copy.rsvpSubtitle)}</p>
-
-          <form class="rsvp-form" id="rsvp-form" novalidate>
-            <label>
-              <span>Your name</span>
-              <input name="guestName" type="text" autocomplete="name" placeholder="Full name" required />
-            </label>
-
-            <fieldset>
-              <legend>Will you attend?</legend>
-              <div class="choice-row">
-                <label class="choice"><input type="radio" name="attendance" value="Yes, joyfully attending" required /><span>Joyfully attending</span></label>
-                <label class="choice"><input type="radio" name="attendance" value="Regretfully unable" required /><span>Regretfully unable</span></label>
-              </div>
-            </fieldset>
-
-            <label>
-              <span>Number of guests</span>
-              <select name="guestCount">
-                ${[1,2,3,4,5,6].map((n) => `<option value="${n}">${n}</option>`).join("")}
-              </select>
-            </label>
-
-            <fieldset>
-              <legend>Events attending</legend>
-              <div class="check-grid">
-                ${preWeddingEvents.map((event) => `<label class="check"><input type="checkbox" name="events" value="${escapeHtml(event.title)}" /><span>${escapeHtml(event.title)}</span></label>`).join("")}
-                <label class="check"><input type="checkbox" name="events" value="Nikah & Reception" checked /><span>Nikah & Reception</span></label>
-              </div>
-            </fieldset>
-
-            <label>
-              <span>Meal preference</span>
-              <select name="mealPreference">
-                ${rsvp.mealOptions.map((option) => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`).join("")}
-              </select>
-            </label>
-
-            <label>
-              <span>Dietary restrictions</span>
-              <input name="dietaryRestrictions" type="text" placeholder="Optional" />
-            </label>
-
-            <label>
-              <span>A message for the couple</span>
-              <textarea name="message" rows="4" placeholder="Share your blessings and wishes"></textarea>
-            </label>
-
-            <button class="button button--gold button--full" type="submit">Send RSVP</button>
-            <p class="form-note">This sample stores responses only in this browser. Connect an API endpoint in the config for production.</p>
-            <p class="form-status" id="form-status" role="status"></p>
-          </form>
-        </div>
-      </section>
-    ` : ""}
-
-    
-
-    
-    <!-- RSVP Section -->
+    <!-- Traditional RSVP Section Card (Replacing Form & Dress Code) -->
     <section
       class="section family-section reveal-on-scroll"
-      id="friends"
-      aria-labelledby="friends-heading"
+      id="rsvp"
+      aria-labelledby="rsvp-heading"
     >
-      <div class="section__inner">
-
-        <p class="section-kicker">Awaiting Your Presence</p>
-
-        <h2 id="friends-heading">RSVP</h2>
-
-        <div class="family-grid">
-          <article class="family-card">
-            <ul>
-              ${[
-                "Mr Hansraj Singh",
-                "Mr Vijay Pal",
-                "Dr Akash Pal",
-                "Adv Vikas Pal",
-                "Mr Gourav Pal",
-                "Mr Abhay Pal",
-                "Mr Arvind Pal",
-                "Mr Nipendra Pal",
-                "Mr Vipin Pal"
-              ].map((name) => `
-                <li>${escapeHtml(name)}</li>
-              `).join("")}
-            </ul>
-          </article>
+      <div class="section__inner section__inner--narrow">
+        <div class="venue-card" style="text-align: center; padding: 40px 20px;">
+          <h2 id="rsvp-heading" style="font-family: var(--font-display); font-size: 2.5rem; color: var(--gold-deep); margin-bottom: 30px; letter-spacing: 2px;">R.S.V.P.</h2>
+          
+          <div style="display: flex; flex-direction: column; gap: 16px; font-size: 1.15rem; color: var(--ink);">
+            <p style="margin: 0;">Master Shamshuddin</p>
+            <p style="margin: 0;">Md. Faiyaz Daroga, Haji Irshad</p>
+            <p style="margin: 0;">Abdul Sattar, Nawab Ali (Kardampuri)</p>
+            <p style="margin: 0;">Bablu Bhai (Mustafabad)</p>
+            <p style="margin: 0;">Md. Azeem, Md. Faiz, Md. Saad</p>
+            <p style="margin: 0;">Md. Aalim, Md. Ismaeel, Md. Abu Bakar</p>
+            <p style="margin: 0;">Md. Ibraheem, Md. Hussain</p>
+          </div>
         </div>
-
       </div>
     </section>
     
