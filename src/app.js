@@ -11,25 +11,10 @@ Object.entries(config.theme.colors).forEach(([key, value]) => {
   const cssName = key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
   root.style.setProperty(`--${cssName}`, value);
 });
-root.style.setProperty(
-  "--font-arabic",
-  config.theme.fonts.arabic
-);
-
-root.style.setProperty(
-  "--font-names",
-  config.theme.fonts.names
-);
-
-root.style.setProperty(
-  "--font-display",
-  config.theme.fonts.display
-);
-
-root.style.setProperty(
-  "--font-body",
-  config.theme.fonts.body
-);
+root.style.setProperty("--font-arabic", config.theme.fonts.arabic);
+root.style.setProperty("--font-names", config.theme.fonts.names);
+root.style.setProperty("--font-display", config.theme.fonts.display);
+root.style.setProperty("--font-body", config.theme.fonts.body);
 
 document.title = `${config.couple.groomName} & ${config.couple.brideName} | Reception Invitation`;
 
@@ -44,8 +29,7 @@ document.addEventListener("dragstart", (event) => {
 });
 
 const video = document.querySelector("#intro-video");
-const posterFrame =
-  document.querySelector("#hero-poster-frame");
+const posterFrame = document.querySelector("#hero-poster-frame");
 const music = document.querySelector("#background-music");
 const openingGate = document.querySelector("#opening-gate");
 const musicControl = document.querySelector("#music-control");
@@ -70,7 +54,6 @@ function hidePosterAfterFirstVideoFrame() {
     video.requestVideoFrameCallback(() => {
       hidePoster();
     });
-
     return;
   }
 
@@ -109,9 +92,7 @@ function startMedia() {
 
   if (soundEnabled) {
     music.volume = 0.42;
-
     const musicPromise = music.play();
-
     if (musicPromise) {
       musicPromise.catch((error) => {
         console.warn("Music could not start", error);
@@ -131,22 +112,25 @@ function showNames() {
 function openExperience() {
   if (experienceOpened) return;
   experienceOpened = true;
+  
   if (openingGate) {
     openingGate.classList.add("is-opening");
-    openingGate.setAttribute("hidden", "");
   }
   document.body.classList.remove("scroll-locked");
   document.body.classList.add("experience-open");
+  
   setMusicUi();
   startMedia();
+  
+  // Video chalne ke baad timing par names show honge
   namesTimer = window.setTimeout(showNames, config.intro.namesAppearAtSeconds * 1000);
+  
+  window.setTimeout(() => {
+    if (openingGate) openingGate.setAttribute("hidden", "");
+  }, 1100);
 }
 
-// Page load hote hi apne aap start ho jayega bina kisi click ke
-window.addEventListener("DOMContentLoaded", () => {
-  openExperience();
-});
-
+// Sirf click/touch karne par hi khulega (jaise pehle tha)
 if (openingGate) {
   openingGate.addEventListener("click", openExperience);
 }
@@ -336,66 +320,6 @@ if (countdown) {
   };
   tick();
   window.setInterval(tick, 1000);
-}
-
-const rsvpForm = document.querySelector("#rsvp-form");
-if (rsvpForm) {
-  const status = document.querySelector("#form-status");
-  rsvpForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (!rsvpForm.reportValidity()) return;
-
-    const data = new FormData(rsvpForm);
-    const payload = {
-      guestName: data.get("guestName"),
-      attendance: data.get("attendance"),
-      guestCount: Number(data.get("guestCount")),
-      events: data.getAll("events"),
-      mealPreference: data.get("mealPreference"),
-      dietaryRestrictions: data.get("dietaryRestrictions"),
-      message: data.get("message"),
-      submittedAt: new Date().toISOString(),
-      invitationSlug: config.meta.slug,
-    };
-
-    const submitButton = rsvpForm.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending…";
-    status.textContent = "";
-
-    try {
-      if (config.rsvp.endpoint) {
-        const response = await fetch(config.rsvp.endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (!response.ok) throw new Error("RSVP request failed");
-      } else {
-        try {
-          const stored = JSON.parse(localStorage.getItem(config.rsvp.previewStorageKey) || "[]");
-          stored.push(payload);
-          localStorage.setItem(config.rsvp.previewStorageKey, JSON.stringify(stored));
-        } catch (storageError) {
-          window.__previewRsvps = window.__previewRsvps || [];
-          window.__previewRsvps.push(payload);
-          console.warn("Local storage is unavailable", storageError);
-        }
-      }
-      status.textContent = payload.attendance?.startsWith("Yes")
-        ? "Thank you. Your response has been received — we look forward to celebrating with you."
-        : "Thank you for letting us know.";
-      status.classList.add("is-success");
-      rsvpForm.reset();
-    } catch (error) {
-      console.error(error);
-      status.textContent = "Something went wrong. Please try again.";
-      status.classList.remove("is-success");
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = "Send RSVP";
-    }
-  });
 }
 
 const observer = new IntersectionObserver((entries) => {
