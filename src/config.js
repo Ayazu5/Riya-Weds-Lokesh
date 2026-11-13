@@ -32,7 +32,7 @@ export const weddingConfig = {
     ]
   },
   copy: {
-    heroBismillah: "Bismillah hir-Rahman nir-Rahim",
+    heroBismillah: "Om Shri Ganeshaya Namah",
     heroIntroLineOne: "Together with their families",
     heroIntroLineTwo: "Invite you to celebrate",
     heroIntroLineThree: "Their Wedding Reception",
