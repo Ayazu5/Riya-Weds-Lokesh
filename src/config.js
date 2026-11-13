@@ -45,7 +45,7 @@ export const weddingConfig = {
     galleryTitle: "Our Moments",
     countdownTitle: "Counting Down to Forever",
     timelineTitle: "Wedding Program",
-    venueTitle: "",
+    venueTitle: "The Venue",
     closingTitle: "With Love",
     closingBody: "We look forward to celebrating with you.",
   },
