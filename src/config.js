@@ -28,7 +28,7 @@ export const weddingConfig = {
     introPoster: "./assets/video/intro.webp",
     backgroundMusic: "./assets/audio/bgm1.mp3",
     gallery: [
-      { src: "./assets/gallery/gallery-01.jpg", alt: "Lokesh and Riya" }
+      { src: "./assets/gallery/gallery-01.jpg", alt: "Riya and Lokesh" }
     ]
   },
   copy: {
@@ -46,25 +46,9 @@ export const weddingConfig = {
     countdownTitle: "Counting Down to Forever",
     timelineTitle: "Wedding Program",
     venueTitle: "The Venue",
-    preWeddingTitle: "Pre-Wedding Events",
     closingTitle: "With Love",
     closingBody: "We look forward to celebrating with you.",
   },
-  dressCode: {
-    title: "Festive Elegance",
-    description: "Traditional or formal attire.",
-    palette: ["#123f35", "#d5b875", "#f3ead9"]
-  },
-  preWeddingEvents: [
-    {
-      title: "Nikah & Reception",
-      date: "November 21, 2026",
-      time: "12:00 PM Onwards",
-      venue: "Rahagir Resort, Rishikesh",
-      note: "Looking forward to your presence",
-      mapsUrl: "https://maps.google.com/?q=Rahagir+Resort+Rishikesh"
-    }
-  ],
   program: [
     { time: "12:00 PM", title: "Lunch", detail: "Greeting and Lunch" },
     { time: "02:00 PM", title: "Jaimala", detail: "Ring ceremony and Jaimala" },
@@ -94,15 +78,10 @@ export const weddingConfig = {
     timeline: true,
     venue: true,
     dressCode: false,
-    preWeddingEvents: true,
+    preWeddingEvents: false,
     gifts: false,
     rsvp: true,
     closing: true,
-  },
-  rsvp: {
-    endpoint: "",
-    previewStorageKey: "riya_lokesh_rsvp_preview",
-    mealOptions: ["Vegetarian", "Non-Vegetarian"],
   },
   theme: {
     colors: {
