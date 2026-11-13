@@ -3,10 +3,10 @@ export const weddingConfig = {
     slug: "riya-weds-lokesh",
   },
   couple: {
-    brideName: "Riya Pal",
-    brideParents: "Daughter of Vijay Pal Singh",
-    groomName: "Lokesh Pal",
-    groomParents: "Son of Mahender Pratap Singh",
+    brideName: "Lokesh Pal",
+    brideParents: "Son of Mahender Pratap Singh",
+    groomName: "Riya Pal",
+    groomParents: "Daughter of Vijay Pal Singh",
   },
   wedding: {
     displayDate: "November 21, 2026",
